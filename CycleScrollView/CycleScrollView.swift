@@ -10,16 +10,36 @@ import UIKit
 
 let CycleScrollViewWidth : CGFloat = UIScreen.main.bounds.width
 let CycleScrollViewHeight : CGFloat = CycleScrollViewWidth * 44 / 75
+let CycleScrollViewCollectionHeight : CGFloat = CycleScrollViewWidth * 2 / 5
 let TopSpace : CGFloat = CycleScrollViewWidth / 25
 let MaxSizeWidth : CGFloat = CycleScrollViewWidth * 22 / 25
 let MaxSizeHeight : CGFloat = MaxSizeWidth * 5 / 11
 let MinSizeHeight : CGFloat = MaxSizeHeight * 4 / 5
 let BottomLabelHeight : CGFloat = CycleScrollViewWidth * 11 / 75
+let itemSpace : CGFloat = CycleScrollViewWidth * 2 / 75
 
 open class CycleScrollView: UIView {
 
     open weak var dataSource: CycleScrollViewDataSource?
     open weak var delegate: CycleScrollViewDelegate?
+    
+    
+    open var imageNames : [String] = []{
+        didSet{
+            if imageNames.count <= 0 {
+                return
+            }
+            if imageNames[0].hasPrefix("http"){
+                imageType = .web
+            }else{
+                imageType = .local
+            }
+            reloadData()
+        }
+    }
+    
+    open var titleNames : [String] = []
+    
     
     
     /// The scroll direction of the CycleScrollView. Default is horizontal.
@@ -43,7 +63,7 @@ open class CycleScrollView: UIView {
     
     /// The spacing to use between items in the CycleScrollView. Default is 0.
     /// item的间距
-    open var interitemSpacing: CGFloat = 0 {
+    open var interitemSpacing: CGFloat = itemSpace {
         didSet {
             self.collectionViewLayout.forceInvalidate()
         }
@@ -51,7 +71,7 @@ open class CycleScrollView: UIView {
     
     /// The item size of the CycleScrollView. .zero means always fill the bounds of the CycleScrollView. Default is .zero.
     /// item的大小
-    open var itemSize: CGSize = .zero {
+    open var itemSize: CGSize = CGSize(width: MaxSizeWidth, height: MaxSizeHeight) {
         didSet {
             self.collectionViewLayout.forceInvalidate()
         }
@@ -125,6 +145,8 @@ open class CycleScrollView: UIView {
     internal var numberOfSections: Int = 0
     
     fileprivate var dequeingSection = 0
+    
+    fileprivate var imageType : ImageType = .web
     fileprivate var centermostIndexPath: IndexPath {
         guard self.numberOfItems > 0, self.collectionView.contentSize != .zero else {
             return IndexPath(item: 0, section: 0)
@@ -152,8 +174,12 @@ open class CycleScrollView: UIView {
         return IndexPath(item: 0, section: 0)
     }
     
+    
+    fileprivate var titleLabel : UILabel  = UILabel(frame: CGRect(x: CycleScrollViewWidth * 3 / 50, y: CycleScrollViewWidth * 33 / 75, width: MaxSizeWidth, height: CycleScrollViewWidth * 11 / 75))
+    
     fileprivate var possibleTargetingIndexPath: IndexPath?
     
+    fileprivate var bingo : Double = 0.0
     
     // MARK: - Overriden functions
     
@@ -171,7 +197,8 @@ open class CycleScrollView: UIView {
         super.layoutSubviews()
         self.backgroundView?.frame = self.bounds
         self.contentView.frame = self.bounds
-        self.collectionView.frame = self.contentView.bounds
+        self.collectionView.frame = CGRect(x: 0, y: TopSpace, width: CycleScrollViewWidth, height: CycleScrollViewCollectionHeight)
+        self.titleLabel.frame =  CGRect(x: CycleScrollViewWidth * 3 / 50, y: CycleScrollViewWidth * 33 / 75, width: MaxSizeWidth, height: CycleScrollViewWidth * 11 / 75)
         //        self.collectionView.isPagingEnabled = true
     }
     
@@ -205,6 +232,13 @@ open class CycleScrollView: UIView {
 
 // MARK: - Public functions
 extension CycleScrollView{
+    
+    func setFontSize(size : CGFloat) -> UIFont {
+        if UIScreen.main.bounds.width > 375 {
+            return UIFont.systemFont(ofSize: size * UIScreen.main.bounds.width / 375)
+        }
+        return UIFont.systemFont(ofSize: size)
+    }
     
     @objc(registerClass:forCellWithReuseIdentifier:)
     /// Register a class for use in creating new  CycleScrollViewcells.
@@ -336,6 +370,12 @@ extension CycleScrollView{
         self.contentView.addSubview(collectionView)
         self.collectionView = collectionView
         self.collectionViewLayout = collectionViewLayout
+        self.contentView.addSubview(titleLabel)
+        
+        titleLabel.textAlignment = .left
+        titleLabel.textColor = UIColor.darkGray
+        titleLabel.backgroundColor = UIColor.white
+        titleLabel.font = self.setFontSize(size: 14)//UIFont.systemFont(ofSize: 14)
         
     }
     
@@ -372,6 +412,72 @@ extension CycleScrollView{
             return IndexPath(item: index, section: currentSection-1)
         } else {
             return IndexPath(item: index, section: currentSection+1)
+        }
+    }
+    
+}
+
+//MARK: - UIScrollViewDelegate
+extension CycleScrollView : UIScrollViewDelegate{
+    
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if self.numberOfItems > 0 {
+            let alpha = modf(Double(self.scrollOffset), &bingo)
+            titleLabel.alpha = alpha > 0.5 ? CGFloat(2 * (alpha - 0.5)) : CGFloat(1 - 2 * alpha)
+            if alpha > 0.5 {
+                print( CGFloat(2 * (alpha - 0.5)))
+            }else{
+                print(CGFloat(1 - 2 * alpha))
+            }
+            // In case someone is using KVO
+            let currentIndex = lround(Double(self.scrollOffset)) % self.numberOfItems
+            if titleNames.count > 0{
+                titleLabel.text = titleNames[currentIndex]
+            }
+            if (currentIndex != self.currentIndex) {
+                self.currentIndex = currentIndex
+            }
+        }
+        guard let function = self.delegate?.cycleScrollViewDidScroll else {
+            return
+        }
+        function(self)
+    }
+    
+    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        if let function = self.delegate?.cycleScrollViewWillBeginDragging(_:) {
+            function(self)
+        }
+        if self.automaticSlidingInterval > 0 {
+            self.cancelTimer()
+        }
+    }
+    
+    public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        if let function = self.delegate?.cycleScrollViewWillEndDragging(_:targetIndex:) {
+            let contentOffset = self.scrollDirection == .horizontal ? targetContentOffset.pointee.x : targetContentOffset.pointee.y
+            let targetItem = lround(Double(contentOffset/self.collectionViewLayout.itemSpacing))
+            function(self, targetItem % self.numberOfItems)
+        }
+        if self.automaticSlidingInterval > 0 {
+            self.startTimer()
+        }
+    }
+    public func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        if self.numberOfItems > 0 {
+            let currentIndex = lround(Double(self.scrollOffset)) % self.numberOfItems
+            scrollToItem(at: currentIndex, animated: true)
+        }
+    }
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if let function = self.delegate?.cycleScrollViewDidEndDecelerating {
+            function(self)
+        }
+    }
+    
+    public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        if let function = self.delegate?.cycleScrollViewDidEndScrollAnimation {
+            function(self)
         }
     }
     
@@ -417,7 +523,7 @@ extension CycleScrollView : UICollectionViewDelegate{
     }
     
     public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        print("\(indexPath.section)--------")
+//        print("\(indexPath.section)--------")
         guard let function = self.delegate?.cycleScrollView(_:willDisplay:forItemAt:) else {
             return
         }
@@ -433,53 +539,6 @@ extension CycleScrollView : UICollectionViewDelegate{
         function(self,cell as! CycleScrollViewCell,index)
     }
     
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if self.numberOfItems > 0 {
-            // In case someone is using KVO
-            print(Double(self.scrollOffset))
-            
-            let currentIndex = lround(Double(self.scrollOffset)) % self.numberOfItems
-            if (currentIndex != self.currentIndex) {
-                self.currentIndex = currentIndex
-            }
-        }
-        guard let function = self.delegate?.cycleScrollViewDidScroll else {
-            return
-        }
-        function(self)
-    }
-    
-    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        if let function = self.delegate?.cycleScrollViewWillBeginDragging(_:) {
-            function(self)
-        }
-        if self.automaticSlidingInterval > 0 {
-            self.cancelTimer()
-        }
-    }
-    
-    public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        if let function = self.delegate?.cycleScrollViewWillEndDragging(_:targetIndex:) {
-            let contentOffset = self.scrollDirection == .horizontal ? targetContentOffset.pointee.x : targetContentOffset.pointee.y
-            let targetItem = lround(Double(contentOffset/self.collectionViewLayout.itemSpacing))
-            function(self, targetItem % self.numberOfItems)
-        }
-        if self.automaticSlidingInterval > 0 {
-            self.startTimer()
-        }
-    }
-    
-    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if let function = self.delegate?.cycleScrollViewDidEndDecelerating {
-            function(self)
-        }
-    }
-    
-    public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        if let function = self.delegate?.cycleScrollViewDidEndScrollAnimation {
-            function(self)
-        }
-    }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -506,6 +565,13 @@ extension CycleScrollView : UICollectionViewDataSource{
         let index = indexPath.item
         self.dequeingSection = indexPath.section
         let cell = self.dataSource!.cycleScrollView(self, cellForItemAt: index)
+        if imageType == .web{
+            cell.imageView?.bingo_setImage(url: imageNames[indexPath.item], placeholder: nil, options: [.progressiveBlur,.setImageWithFadeAnimation], progress: nil, transform: nil, completion: nil)
+        }else{
+            cell.imageView?.image = UIImage(named: imageNames[indexPath.item])
+        }
+        cell.imageView?.contentMode = .scaleAspectFill
+        cell.imageView?.clipsToBounds = true
         return cell
     }
 }

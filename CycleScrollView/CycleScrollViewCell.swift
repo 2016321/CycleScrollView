@@ -7,11 +7,12 @@
 //
 
 import UIKit
+import YYKit
 
 open class CycleScrollViewCell: UICollectionViewCell {
     
     fileprivate weak var _textLabel: UILabel?
-    fileprivate weak var _imageView: UIImageView?
+    fileprivate weak var _imageView: YYAnimatedImageView?
     
     fileprivate let kvoContext = UnsafeMutableRawPointer(bitPattern: 0)
     fileprivate let selectionColor = UIColor(white: 0.2, alpha: 0.2)
@@ -43,11 +44,11 @@ open class CycleScrollViewCell: UICollectionViewCell {
         return textLabel
     }
     
-    open var imageView: UIImageView? {
+    open var imageView: YYAnimatedImageView? {
         if let _ = _imageView {
             return _imageView
         }
-        let imageView = UIImageView(frame: .zero)
+        let imageView = YYAnimatedImageView(frame: .zero)
         self.contentView.addSubview(imageView)
         _imageView = imageView
         return imageView

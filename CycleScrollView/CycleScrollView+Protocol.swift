@@ -11,6 +11,12 @@ import Foundation
 
 
 @objc
+public enum ImageType : Int{
+    case local
+    case web
+}
+
+@objc
 public enum CycleScrollViewTransformerType : Int {
     case linear
 }

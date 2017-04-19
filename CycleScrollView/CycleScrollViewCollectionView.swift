@@ -47,6 +47,7 @@ extension CycleScrollViewCollectionView{
         self.decelerationRate = UIScrollViewDecelerationRateFast
         self.showsVerticalScrollIndicator = false
         self.showsHorizontalScrollIndicator = false
+        self.isPagingEnabled = true
         //MARK: - iOS10中关闭预加载，因为是动态改变cell大小，一定要关闭，一定要关闭，一定要关闭！
         if #available(iOS 10.0, *) {
             self.isPrefetchingEnabled = false
