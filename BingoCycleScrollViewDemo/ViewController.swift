@@ -50,7 +50,7 @@ class ViewController: UIViewController,CycleScrollViewDataSource,CycleScrollView
 //        self.bingoView.interitemSpacing = 20
         self.bingoView.isInfinite = true
 //        self.bingoView.reloadData()
-        bingoView.automaticSlidingInterval = 2
+//        bingoView.automaticSlidingInterval = 2
     }
 
     override func didReceiveMemoryWarning() {
