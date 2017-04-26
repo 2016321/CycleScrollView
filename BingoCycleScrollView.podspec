@@ -1,5 +1,5 @@
 #
-#  Be sure to run `pod spec lint CycleScrollView.podspec' to ensure this is a
+#  Be sure to run `pod spec lint BingoCycleScrollView.podspec' to ensure this is a
 #  valid spec and to remove all comments including this before submitting the spec.
 #
 #  To learn more about Podspec attributes see http://docs.cocoapods.org/specification.html
@@ -15,17 +15,17 @@ Pod::Spec.new do |s|
   #  summary should be tweet-length, and the description more in depth.
   #
 
-  s.name         = "CycleScrollView"
-  s.version      = "0.9.0"
-  s.summary      = "The CycleScrollView for banner"
+  s.name         = "BingoCycleScrollView"
+  s.version      = "0.0.1"
+  s.summary      = "BingoCycleScrollView."
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
   #   * Try to keep it short, snappy and to the point.
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
-  s.description  = <<-DESC 
-  					上传cocoapods
+  s.description  = <<-DESC
+                    you can use local Image or Web Image to make a banner
                    DESC
 
   s.homepage     = "https://github.com/2016321/CycleScrollView"
@@ -65,7 +65,7 @@ Pod::Spec.new do |s|
   #
 
   # s.platform     = :ios
-  s.platform     = :ios, "8.0"
+  # s.platform     = :ios, "5.0"
 
   #  When using multiple platforms
   # s.ios.deployment_target = "5.0"
@@ -81,7 +81,8 @@ Pod::Spec.new do |s|
   #
 
   s.source       = { :git => "https://github.com/2016321/CycleScrollView.git", :tag => "#{s.version}" }
-  s.frameworks="UIKit","Foundation"
+
+
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
   #  CocoaPods is smart about how it includes source code. For source files
@@ -133,5 +134,6 @@ Pod::Spec.new do |s|
 
   # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
   s.dependency "YYKit", "~> 1.0.9"
+  s.pod_target_xcconfig = { 'SWIFT_VERSION' => '3.0' }
 
 end
