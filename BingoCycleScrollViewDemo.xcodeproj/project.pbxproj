@@ -59,8 +59,8 @@
 		AF88600AC7080F2EB8AEF361 /* Pods_BingoCycleScrollViewDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BingoCycleScrollViewDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B37C15FD2B88165557E0D28A /* Pods-BingoCycleScrollViewDemoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BingoCycleScrollViewDemoUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BingoCycleScrollViewDemoUITests/Pods-BingoCycleScrollViewDemoUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		D254A3B2E5A7FCC3DED29A5B /* Pods_BingoCycleScrollViewDemoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BingoCycleScrollViewDemoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E7A21FFF1EB09C5D0010B169 /* BingoCycleScrollViewDemo-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BingoCycleScrollViewDemo-Bridging-Header.h"; sourceTree = "<group>"; };
 		E7ABD7E41EA7000100D3C707 /* YYKitManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YYKitManager.swift; sourceTree = "<group>"; };
-		E7ABD7E61EA7004900D3C707 /* BingoCycleScrollViewDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BingoCycleScrollViewDemo-Bridging-Header.h"; sourceTree = "<group>"; };
 		E7CFC0481EA0A7EC004D70F3 /* BingoCycleScrollViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BingoCycleScrollViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7CFC04B1EA0A7EC004D70F3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E7CFC04D1EA0A7EC004D70F3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -165,6 +165,7 @@
 		E7CFC04A1EA0A7EC004D70F3 /* BingoCycleScrollViewDemo */ = {
 			isa = PBXGroup;
 			children = (
+				E7A21FFF1EB09C5D0010B169 /* BingoCycleScrollViewDemo-Bridging-Header.h */,
 				E7CFC04B1EA0A7EC004D70F3 /* AppDelegate.swift */,
 				E7CFC04D1EA0A7EC004D70F3 /* ViewController.swift */,
 				E7CFC04F1EA0A7EC004D70F3 /* Main.storyboard */,
@@ -217,7 +218,6 @@
 				E7CFC0A41EA4CC3F004D70F3 /* CycleScrollViewLayout.swift */,
 				E7CFC09C1EA4CB3E004D70F3 /* CycleScrollViewTransformer.swift */,
 				E7CFC09A1EA4CB02004D70F3 /* CycleScrollViewLayoutAttributes.swift */,
-				E7ABD7E61EA7004900D3C707 /* BingoCycleScrollViewDemo-Bridging-Header.h */,
 			);
 			path = CycleScrollView;
 			sourceTree = "<group>";
