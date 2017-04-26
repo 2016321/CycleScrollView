@@ -146,6 +146,8 @@ open class CycleScrollView: UIView {
     
     fileprivate var dequeingSection = 0
     
+    /// the location when you drag the view
+    fileprivate var startContentOffset : CGFloat = 0.0
     fileprivate var imageType : ImageType = .web
     fileprivate var centermostIndexPath: IndexPath {
         guard self.numberOfItems > 0, self.collectionView.contentSize != .zero else {
@@ -320,8 +322,13 @@ extension CycleScrollView{
     ///   - animated: Specify true to animate the scrolling behavior or false to adjust the CycleScrollView’s visible content immediately.
     /// 滚动到固定的cell
     open func scrollToItem(at index: Int, animated: Bool) {
-        guard index < self.numberOfItems else {
-            fatalError("index \(index) is out of range [0...\(self.numberOfItems-1)]")
+        var inIndex = index
+//        guard inIndex < self.numberOfItems else {
+//            inIndex = 0
+////            fatalError("index \(index) is out of range [0...\(self.numberOfItems-1)]")
+//        }
+        if inIndex < self.numberOfItems {
+            inIndex = 0
         }
         let indexPath = { () -> IndexPath in
             if let indexPath = self.possibleTargetingIndexPath, indexPath.item == index {
@@ -448,27 +455,43 @@ extension CycleScrollView : UIScrollViewDelegate{
         if let function = self.delegate?.cycleScrollViewWillBeginDragging(_:) {
             function(self)
         }
+        if self.scrollDirection == .horizontal {
+            startContentOffset = scrollView.contentOffset.x
+        }
+        else{
+            startContentOffset = scrollView.contentOffset.y
+        }
         if self.automaticSlidingInterval > 0 {
             self.cancelTimer()
         }
     }
     
     public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        let contentOffset = self.scrollDirection == .horizontal ? targetContentOffset.pointee.x : targetContentOffset.pointee.y
+        let targetItem = lround(Double(contentOffset/self.collectionViewLayout.itemSpacing)) % self.numberOfItems
+        if self.scrollDirection == .horizontal && velocity.x > 0.5{
+            if scrollView.contentOffset.x > startContentOffset {
+                scrollToItem(at: currentIndex + 1, animated: true)
+            }
+            else{
+                scrollToItem(at: currentIndex - 1, animated: true)
+            }
+        }else if self.scrollDirection == .vertical && velocity.y > 0.5{
+            if scrollView.contentOffset.y > startContentOffset {
+                scrollToItem(at: currentIndex + 1, animated: true)
+            }
+            else{
+                scrollToItem(at: currentIndex - 1, animated: true)
+            }
+        }
         if let function = self.delegate?.cycleScrollViewWillEndDragging(_:targetIndex:) {
-            let contentOffset = self.scrollDirection == .horizontal ? targetContentOffset.pointee.x : targetContentOffset.pointee.y
-            let targetItem = lround(Double(contentOffset/self.collectionViewLayout.itemSpacing))
-            function(self, targetItem % self.numberOfItems)
+            function(self, targetItem)
         }
         if self.automaticSlidingInterval > 0 {
             self.startTimer()
         }
     }
-    public func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
-        if self.numberOfItems > 0 {
-            let currentIndex = lround(Double(self.scrollOffset)) % self.numberOfItems
-            scrollToItem(at: currentIndex, animated: true)
-        }
-    }
+    
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if let function = self.delegate?.cycleScrollViewDidEndDecelerating {
             function(self)

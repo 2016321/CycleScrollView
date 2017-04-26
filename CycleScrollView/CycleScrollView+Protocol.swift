@@ -9,7 +9,6 @@
 import Foundation
 
 
-
 @objc
 public enum ImageType : Int{
     case local
