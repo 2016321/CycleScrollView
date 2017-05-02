@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 let CycleScrollViewWidth : CGFloat = UIScreen.main.bounds.width
 let CycleScrollViewHeight : CGFloat = CycleScrollViewWidth * 44 / 75
@@ -40,6 +41,7 @@ open class CycleScrollView: UIView {
     
     open var titleNames : [String] = []
     
+    open var placeholder : UIImage?
     
     
     /// The scroll direction of the CycleScrollView. Default is horizontal.
@@ -589,7 +591,7 @@ extension CycleScrollView : UICollectionViewDataSource{
         self.dequeingSection = indexPath.section
         let cell = self.dataSource!.cycleScrollView(self, cellForItemAt: index)
         if imageType == .web{
-            cell.imageView?.bingo_setImage(url: imageNames[indexPath.item], placeholder: nil, options: [.progressiveBlur,.setImageWithFadeAnimation], progress: nil, transform: nil, completion: nil)
+            cell.imageView?.setImage(with: URL(string:imageNames[indexPath.item]), placeholder: placeholder, options: [.transition(ImageTransition.fade(1))], progressBlock: nil, completionHandler: nil)
         }else{
             cell.imageView?.image = UIImage(named: imageNames[indexPath.item])
         }

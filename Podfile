@@ -3,7 +3,7 @@
 
 target 'BingoCycleScrollViewDemo' do
 use_frameworks!
-pod 'YYKit'
+pod 'Kingfisher'
   target 'BingoCycleScrollViewDemoTests' do
     inherit! :search_paths
     # Pods for testing
