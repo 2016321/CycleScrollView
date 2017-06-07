@@ -10,6 +10,8 @@
 		2876038A682FE1D8C1DC7D26 /* Pods_BingoCycleScrollViewDemoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D254A3B2E5A7FCC3DED29A5B /* Pods_BingoCycleScrollViewDemoTests.framework */; };
 		3E807D805DF6EA4E724B9F10 /* Pods_BingoCycleScrollViewDemoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29D24F0CFF4751A1ED9A2CB7 /* Pods_BingoCycleScrollViewDemoUITests.framework */; };
 		66EEEA7BC8DCD8131260189B /* Pods_BingoCycleScrollViewDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF88600AC7080F2EB8AEF361 /* Pods_BingoCycleScrollViewDemo.framework */; };
+		E71ED8751EE7A256009D3D95 /* BannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71ED8741EE7A256009D3D95 /* BannerViewController.swift */; };
+		E71ED8771EE7AB81009D3D95 /* CyclePageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71ED8761EE7AB81009D3D95 /* CyclePageControl.swift */; };
 		E7C00BAA1EB88A2A0060F234 /* KingfisherManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C00BA91EB88A2A0060F234 /* KingfisherManger.swift */; };
 		E7CFC04C1EA0A7EC004D70F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7CFC04B1EA0A7EC004D70F3 /* AppDelegate.swift */; };
 		E7CFC04E1EA0A7EC004D70F3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7CFC04D1EA0A7EC004D70F3 /* ViewController.swift */; };
@@ -59,6 +61,8 @@
 		AF88600AC7080F2EB8AEF361 /* Pods_BingoCycleScrollViewDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BingoCycleScrollViewDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B37C15FD2B88165557E0D28A /* Pods-BingoCycleScrollViewDemoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BingoCycleScrollViewDemoUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BingoCycleScrollViewDemoUITests/Pods-BingoCycleScrollViewDemoUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		D254A3B2E5A7FCC3DED29A5B /* Pods_BingoCycleScrollViewDemoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BingoCycleScrollViewDemoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E71ED8741EE7A256009D3D95 /* BannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BannerViewController.swift; sourceTree = "<group>"; };
+		E71ED8761EE7AB81009D3D95 /* CyclePageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclePageControl.swift; sourceTree = "<group>"; };
 		E7A21FFF1EB09C5D0010B169 /* BingoCycleScrollViewDemo-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BingoCycleScrollViewDemo-Bridging-Header.h"; sourceTree = "<group>"; };
 		E7C00BA91EB88A2A0060F234 /* KingfisherManger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KingfisherManger.swift; sourceTree = "<group>"; };
 		E7CFC0481EA0A7EC004D70F3 /* BingoCycleScrollViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BingoCycleScrollViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -176,6 +180,7 @@
 				E7A21FFF1EB09C5D0010B169 /* BingoCycleScrollViewDemo-Bridging-Header.h */,
 				E7CFC04B1EA0A7EC004D70F3 /* AppDelegate.swift */,
 				E7CFC04D1EA0A7EC004D70F3 /* ViewController.swift */,
+				E71ED8741EE7A256009D3D95 /* BannerViewController.swift */,
 				E7CFC04F1EA0A7EC004D70F3 /* Main.storyboard */,
 				E7CFC0521EA0A7EC004D70F3 /* Assets.xcassets */,
 				E7CFC0541EA0A7EC004D70F3 /* LaunchScreen.storyboard */,
@@ -220,6 +225,7 @@
 			children = (
 				E7C00BA81EB88A2A0060F234 /* KingfisherManager */,
 				E7CFC09E1EA4CB59004D70F3 /* CycleScrollView+Protocol.swift */,
+				E71ED8761EE7AB81009D3D95 /* CyclePageControl.swift */,
 				E7CFC0A61EA4D18E004D70F3 /* CycleScrollViewCollectionView.swift */,
 				E7CFC0A01EA4CBC1004D70F3 /* CycleScrollView.swift */,
 				E7CFC0A21EA4CBF1004D70F3 /* CycleScrollViewCell.swift */,
@@ -520,9 +526,11 @@
 				E7CFC0A51EA4CC3F004D70F3 /* CycleScrollViewLayout.swift in Sources */,
 				E7C00BAA1EB88A2A0060F234 /* KingfisherManger.swift in Sources */,
 				E7CFC04E1EA0A7EC004D70F3 /* ViewController.swift in Sources */,
+				E71ED8771EE7AB81009D3D95 /* CyclePageControl.swift in Sources */,
 				E7CFC0A71EA4D18E004D70F3 /* CycleScrollViewCollectionView.swift in Sources */,
 				E7CFC09B1EA4CB02004D70F3 /* CycleScrollViewLayoutAttributes.swift in Sources */,
 				E7CFC09F1EA4CB59004D70F3 /* CycleScrollView+Protocol.swift in Sources */,
+				E71ED8751EE7A256009D3D95 /* BannerViewController.swift in Sources */,
 				E7CFC09D1EA4CB3E004D70F3 /* CycleScrollViewTransformer.swift in Sources */,
 				E7CFC0A31EA4CBF1004D70F3 /* CycleScrollViewCell.swift in Sources */,
 				E7CFC04C1EA0A7EC004D70F3 /* AppDelegate.swift in Sources */,

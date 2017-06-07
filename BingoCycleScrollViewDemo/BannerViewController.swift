@@ -1,17 +1,14 @@
 //
-//  ViewController.swift
+//  BannerViewController.swift
 //  BingoCycleScrollViewDemo
 //
-//  Created by 王昱斌 on 17/4/14.
+//  Created by 王昱斌 on 17/6/7.
 //  Copyright © 2017年 Qtin. All rights reserved.
 //
 
 import UIKit
 
-class ViewController: UIViewController,CycleScrollViewDataSource,CycleScrollViewDelegate{
-
-
-    @IBOutlet weak var bingoView: CycleScrollView!
+class BannerViewController: UIViewController ,CycleScrollViewDataSource,CycleScrollViewDelegate{
     fileprivate let imageNames = ["1","2","3"]
     fileprivate let webImageName = [
         "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1493185391&di=08762b39321f5ab3020446c0b8d0eaad&imgtype=jpg&er=1&src=http%3A%2F%2Fimg.ctolib.com%2FuploadImg%2FAED45344E96ABCF311C2C7421134D170%2F90.jpeg",
@@ -29,36 +26,57 @@ class ViewController: UIViewController,CycleScrollViewDataSource,CycleScrollView
         "2016里屋酒店咨询设计论坛，酒店设计的蜂缠蝶恋",
         "2015里屋酒店咨询设计论坛，酒店设计的蜂缠蝶恋"
     ]
- 
+
+    var bingoView : CycleScrollView!
     
-//    var bingoView : BingoCycleScrollView = BingoCycleScrollView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 3 / 5))
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.bingoView.register(CycleScrollViewCell.self, forCellWithReuseIdentifier: "cell")
+        self.view.backgroundColor = UIColor.white
+        setUI()
         
-//        let transform = CGAffineTransform(scaleX: 0.85, y: 0.85)
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        bingoView.frame = CGRect(x: 0, y: 64, width: self.view.frame.width, height: self.view.frame.width * 0.3)
+        bingoView.collectionView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.width * 0.3)
+    }
+    func setUI() -> Void {
+        self.bingoView = CycleScrollView(frame: .zero)
+        self.view.addSubview(bingoView)
+        self.bingoView.register(CycleScrollViewCell.self, forCellWithReuseIdentifier: "cell")
         self.bingoView.imageNames = webImageName
         self.bingoView.titleNames = titleNames
-//        self.bingoView.itemSize = self.bingoView.frame.size.applying(transform)
+        //        self.bingoView.itemSize = self.bingoView.frame.size.applying(transform)
         self.bingoView.backgroundColor = UIColor.white
         self.bingoView.tag = 9999
         self.bingoView.delegate = self
         self.bingoView.dataSource = self
-        self.bingoView.transformer = CycleScrollViewTransformer(type: .linear)
-//        self.bingoView.interitemSpacing = 20
+        //        self.bingoView.transformer = CycleScrollViewTransformer(type: .linear)
+//                self.collectionView.frame = CGRect(x: 0, y: TopSpace, width: CycleScrollViewWidth, height: CycleScrollViewCollectionHeight)
+        self.bingoView.itemSize = CGSize(width: self.view.frame.width, height: self.view.frame.width * 0.3)
+        self.bingoView.interitemSpacing = 0
         self.bingoView.isInfinite = true
-//        self.bingoView.reloadData()
-//        bingoView.automaticSlidingInterval = 2
+        bingoView.collectionView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.width * 0.3)
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
 
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+    */
+    
     func numberOfItems(in cycleScrollView: CycleScrollView) -> Int {
         return imageNames.count
     }
@@ -66,9 +84,9 @@ class ViewController: UIViewController,CycleScrollViewDataSource,CycleScrollView
     
     func cycleScrollView(_ cycleScrollView: CycleScrollView, cellForItemAt index: Int) -> CycleScrollViewCell {
         let cell = bingoView.dequeueReusableCell(withReuseIdentifier: "cell", at: index)
-//        cell.imageView?.image = UIImage(named: self.imageNames[index])
-//        cell.imageView?.contentMode = .scaleAspectFill
-//        cell.imageView?.clipsToBounds = true
+        //        cell.imageView?.image = UIImage(named: self.imageNames[index])
+        //        cell.imageView?.contentMode = .scaleAspectFill
+        //        cell.imageView?.clipsToBounds = true
         return cell
     }
     

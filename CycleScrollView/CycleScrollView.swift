@@ -24,7 +24,6 @@ open class CycleScrollView: UIView {
     open weak var dataSource: CycleScrollViewDataSource?
     open weak var delegate: CycleScrollViewDelegate?
     
-    
     open var imageNames : [String] = []{
         didSet{
             if imageNames.count <= 0 {
@@ -87,7 +86,7 @@ open class CycleScrollView: UIView {
             self.collectionView.reloadData()
         }
     }
-    
+
     
     /// The background view of the CycleScrollView.
     /// 背景视图
@@ -179,7 +178,7 @@ open class CycleScrollView: UIView {
     }
     
     
-    fileprivate var titleLabel : UILabel  = UILabel(frame: CGRect(x: CycleScrollViewWidth * 3 / 50, y: CycleScrollViewWidth * 33 / 75, width: MaxSizeWidth, height: CycleScrollViewWidth * 11 / 75))
+    var titleLabel : UILabel  = UILabel(frame: CGRect(x: CycleScrollViewWidth * 3 / 50, y: CycleScrollViewWidth * 33 / 75, width: MaxSizeWidth, height: CycleScrollViewWidth * 11 / 75))
     
     fileprivate var possibleTargetingIndexPath: IndexPath?
     
@@ -201,9 +200,13 @@ open class CycleScrollView: UIView {
         super.layoutSubviews()
         self.backgroundView?.frame = self.bounds
         self.contentView.frame = self.bounds
-        self.collectionView.frame = CGRect(x: 0, y: TopSpace, width: CycleScrollViewWidth, height: CycleScrollViewCollectionHeight)
-        self.titleLabel.frame =  CGRect(x: CycleScrollViewWidth * 3 / 50, y: CycleScrollViewWidth * 33 / 75, width: MaxSizeWidth, height: CycleScrollViewWidth * 11 / 75)
-        //        self.collectionView.isPagingEnabled = true
+        if transformer != nil {
+            self.collectionView.frame = CGRect(x: 0, y: TopSpace, width: CycleScrollViewWidth, height: CycleScrollViewCollectionHeight)
+            self.titleLabel.frame =  CGRect(x: CycleScrollViewWidth * 3 / 50, y: CycleScrollViewWidth * 33 / 75, width: MaxSizeWidth, height: CycleScrollViewWidth * 11 / 75)
+            return
+        }
+        self.collectionView.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
+        self.titleLabel.removeFromSuperview()
     }
     
     open override func willMove(toWindow newWindow: UIWindow?) {
@@ -440,11 +443,13 @@ extension CycleScrollView : UIScrollViewDelegate{
             }
             // In case someone is using KVO
             let currentIndex = lround(Double(self.scrollOffset)) % self.numberOfItems
-            if titleNames.count > 0{
-                titleLabel.text = titleNames[currentIndex]
-            }
-            if (currentIndex != self.currentIndex) {
+            
+//            if titleNames.count > 0{
+//                titleLabel.text = titleNames[self.currentIndex]
+//            }
+            if (currentIndex != self.currentIndex) && titleNames.count > 0{
                 self.currentIndex = currentIndex
+                
             }
         }
         guard let function = self.delegate?.cycleScrollViewDidScroll else {
