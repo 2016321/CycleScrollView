@@ -46,9 +46,9 @@ class ViewController: UIViewController,CycleScrollViewDataSource,CycleScrollView
         self.bingoView.tag = 9999
         self.bingoView.delegate = self
         self.bingoView.dataSource = self
-        self.bingoView.transformer = CycleScrollViewTransformer(type: .linear)
+//        self.bingoView.transformer = CycleScrollViewTransformer(type: .linear)
 //        self.bingoView.interitemSpacing = 20
-        self.bingoView.isInfinite = true
+        self.bingoView.isInfinite = false
 //        self.bingoView.reloadData()
 //        bingoView.automaticSlidingInterval = 2
     }
@@ -71,7 +71,9 @@ class ViewController: UIViewController,CycleScrollViewDataSource,CycleScrollView
 //        cell.imageView?.clipsToBounds = true
         return cell
     }
-    
+    func cycleScrollViewDidScroll(_ cycleScrollView: CycleScrollView) {
+        print(cycleScrollView.currentIndex)
+    }
     func cycleScrollView(_ cycleScrollView: CycleScrollView, didSelectItemAt index: Int) {
         bingoView.deselectItem(at: index, animated: true)
         bingoView.scrollToItem(at: index, animated: true)

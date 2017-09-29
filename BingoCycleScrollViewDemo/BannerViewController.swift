@@ -56,10 +56,10 @@ class BannerViewController: UIViewController ,CycleScrollViewDataSource,CycleScr
         self.bingoView.dataSource = self
         //        self.bingoView.transformer = CycleScrollViewTransformer(type: .linear)
 //                self.collectionView.frame = CGRect(x: 0, y: TopSpace, width: CycleScrollViewWidth, height: CycleScrollViewCollectionHeight)
-        self.bingoView.itemSize = CGSize(width: self.view.frame.width, height: self.view.frame.width * 0.3)
-        self.bingoView.interitemSpacing = 0
-        self.bingoView.isInfinite = true
-        bingoView.collectionView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.width * 0.3)
+        self.bingoView.itemSize = CGSize(width: self.view.frame.width - 48, height: self.view.frame.width * 0.3)
+        self.bingoView.interitemSpacing = 12
+        self.bingoView.isInfinite = false
+//        bingoView.collectionView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.width * 0.3)
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
